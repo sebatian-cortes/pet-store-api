@@ -1,4 +1,7 @@
 import  express, { Router }  from "express"; //2
+import swaggerUi from "swagger-ui-express"
+import swaggerSetup from "../docs/swagger";
+
 
 interface Options{
     port?: number;
@@ -11,6 +14,7 @@ export class Server {
     private readonly port: number;
     private readonly routes: Router; //4
    
+   
     constructor( options: Options ) {
         const { port = 3100, routes } = options; //3
         this.port = port;
@@ -18,6 +22,7 @@ export class Server {
     }
         
    async start() {
+        this.app.use("/documentation", swaggerUi.serve, swaggerUi.setup(swaggerSetup))
 
         // Middlewares
         this.app.use( express.json() ); //7
